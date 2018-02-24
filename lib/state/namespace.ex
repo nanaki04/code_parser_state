@@ -23,6 +23,18 @@ defmodule CodeParserState.Namespace do
   @spec classes(namespace) :: [CodeParserState.Class.class]
   def classes(%{classes: classes}), do: classes
 
+  @spec interfaces(state) :: [CodeParserState.Interface.interface]
+  def interfaces(%State{} = state), do: from_state state, &interfaces/1
+
+  @spec interfaces(namespace) :: [CodeParserState.Interface.interface]
+  def interfaces(%{interfaces: interfaces}), do: interfaces
+
+  @spec enums(state) :: [CodeParserState.Enum.enum]
+  def enums(%State{} = state), do: from_state state, &enums/1
+
+  @spec enums(namespace) :: [CodeParserState.Enum.enum]
+  def enums(%{enums: enums}), do: enums
+
   @spec set_name(state, String.t) :: state
   def set_name(%State{} = state, name) do
     state
@@ -57,6 +69,60 @@ defmodule CodeParserState.Namespace do
   def update_class(namespace, update) do
     namespace
     |> Map.update!(:classes, fn
+      [] -> []
+      [head | tail] -> [update.(head) | tail]
+    end)
+  end
+
+  @spec add_interface(state, CodeParserState.Interface.interface) :: state
+  def add_interface(%State{} = state, interface) do
+    state
+    |> File.update_namespace(&add_interface(&1, interface))
+  end
+
+  @spec add_interface(namespace, CodeParserState.Interface.interface) :: namespace
+  def add_interface(namespace, interface) do
+    namespace
+    |> Map.update!(:interfaces, &[interface | &1])
+  end
+
+  @spec update_interface(state, fun) :: state
+  def update_interface(%State{} = state, update) do
+    state
+    |> File.update_namespace(&update_interface(&1, update))
+  end
+
+  @spec update_interface(namespace, fun) :: namespace
+  def update_interface(namespace, update) do
+    namespace
+    |> Map.update!(:interfaces, fn
+      [] -> []
+      [head | tail] -> [update.(head) | tail]
+    end)
+  end
+
+  @spec add_enum(state, CodeParserState.Enum.enum) :: state
+  def add_enum(%State{} = state, enum) do
+    state
+    |> File.update_namespace(&add_enum(&1, enum))
+  end
+
+  @spec add_enum(namespace, CodeParserState.Enum.enum) :: namespace
+  def add_enum(namespace, enum) do
+    namespace
+    |> Map.update!(:enums, &[enum | &1])
+  end
+
+  @spec update_enum(state, fun) :: state
+  def update_enum(%State{} = state, update) do
+    state
+    |> File.update_namespace(&update_enum(&1, update))
+  end
+
+  @spec update_enum(namespace, fun) :: namespace
+  def update_enum(namespace, update) do
+    namespace
+    |> Map.update!(:enums, fn
       [] -> []
       [head | tail] -> [update.(head) | tail]
     end)
