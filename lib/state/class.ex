@@ -47,7 +47,16 @@ defmodule CodeParserState.Class do
   def set_name(class, name) do
     class
     |> Map.put(:name, name)
+ 
+  @spec set_description(state, String.t) :: state
+  def set_description(%State{} = state, description), do: Namespace.update_class(state, &set_description(&1, description))
+
+  @spec set_description(class, String.t) :: class
+  def set_description(class, description) do
+    class
+    |> Map.put(:description, description)
   end
+ end
 
   @spec add_property(state, CodeParserState.Property.property) :: state
   def add_property(%State{} = state, property), do: Namespace.update_class(state, &add_property(&1, property))

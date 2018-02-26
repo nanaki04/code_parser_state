@@ -28,6 +28,9 @@ defmodule CodeParserState.Enum do
   @spec set_name(state, String.t) :: state
   def set_name(%State{} = state, name), do: Namespace.update_enum(state, &Class.set_name(&1, name))
 
+  @spec set_description(state, String.t) :: state
+  def set_description(%State{} = state, description), do: Namespace.update_enum(state, &Class.set_description(&1, description))
+
   @spec add_property(state, Property.property) :: state
   def add_property(%State{} = state, property), do: Namespace.update_enum(state, &Class.add_property(&1, property))
 
