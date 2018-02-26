@@ -6,16 +6,21 @@ defmodule CodeParserState.Enum do
 
   @type enum :: %CodeParserState.Enum{
     name: String.t,
+    description: String.t,
     properties: [Property.property],
   }
   @type state :: State.state
   @type namespace :: Namespace.namespace
 
   defstruct name: "",
+    description: "TODO",
     properties: []
 
   @spec name(state) :: String.t
   def name(%State{} = state), do: from_state state, &Class.name/1
+
+  @spec description(state) :: String.t
+  def description(%State{} = state), do: from_state state, &Class.description/1
 
   @spec properties(state) :: [Property.property]
   def properties(%State{} = state), do: from_state state, &Class.properties/1

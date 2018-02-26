@@ -7,6 +7,7 @@ defmodule CodeParserState.Interface do
 
   @type interface :: %CodeParserState.Interface{
     name: String.t,
+    description: String.t,
     properties: [Property.property],
     methods: [Method.method]
   }
@@ -14,11 +15,15 @@ defmodule CodeParserState.Interface do
   @type namespace :: Namespace.namespace
 
   defstruct name: "",
+    description: "TODO",
     properties: [],
     methods: []
 
   @spec name(state) :: String.t
   def name(%State{} = state), do: from_state state, &Class.name/1
+
+  @spec description(state) :: String.t
+  def description(%State{} = state), do: from_state state, &Class.description/1
 
   @spec properties(state) :: [Property.property]
   def properties(%State{} = state), do: from_state state, &Class.properties/1

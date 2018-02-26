@@ -4,6 +4,7 @@ defmodule CodeParserState.Class do
 
   @type class :: %CodeParserState.Class{
     name: String.t,
+    description: String.t
     properties: [CodeParserState.Property.property],
     methods: [CodeParserState.Method.method]
   }
@@ -11,6 +12,7 @@ defmodule CodeParserState.Class do
   @type namespace :: Namespace.namespace
 
   defstruct name: "",
+    description: "TODO",
     properties: [],
     methods: []
 
@@ -19,6 +21,12 @@ defmodule CodeParserState.Class do
 
   @spec name(class) :: String.t
   def name(%{name: name}), do: name
+
+  @spec description(state) :: String.t
+  def description(%State{} = state), do: from_state state, &description/1
+
+  @spec description(class) :: String.t
+  def description(%{description: description}), do: description
 
   @spec properties(state) :: [CodeParserState.Property.property]
   def properties(%State{} = state), do: from_state state, &properties/1
