@@ -9,7 +9,8 @@ defmodule CodeParserState.Interface do
     name: String.t,
     description: String.t,
     properties: [Property.property],
-    methods: [Method.method]
+    methods: [Method.method],
+    relations: [String.t]
   }
   @type state :: State.state
   @type namespace :: Namespace.namespace
@@ -17,7 +18,8 @@ defmodule CodeParserState.Interface do
   defstruct name: "",
     description: "TODO",
     properties: [],
-    methods: []
+    methods: [],
+    relations: []
 
   @spec name(state) :: String.t
   def name(%State{} = state), do: from_state state, &Class.name/1
@@ -30,6 +32,9 @@ defmodule CodeParserState.Interface do
 
   @spec methods(state) :: [Method.method]
   def methods(%State{} = state), do: from_state state, &Class.methods/1
+
+  @spec relations(state) :: [String.t]
+  def relations(%State{} = state), do: from_state state, &Class.relations/1
 
   @spec set_name(state, String.t) :: state
   def set_name(%State{} = state, name), do: Namespace.update_interface(state, &Class.set_name(&1, name))
@@ -48,6 +53,9 @@ defmodule CodeParserState.Interface do
 
   @spec update_method(state, fun) :: state
   def update_method(%State{} = state, update), do: Namespace.update_interface(state, &Class.update_method(&1, update))
+
+  @spec add_relation(state, String.t) :: state
+  def add_relation(%State{} = state, relation), do: Namespace.update_interface(state, &Class.add_relation(&1, relation))
 
   @spec from_state(state, fun) :: term
   defp from_state(state, delegate) do

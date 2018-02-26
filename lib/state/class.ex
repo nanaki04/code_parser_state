@@ -6,7 +6,8 @@ defmodule CodeParserState.Class do
     name: String.t,
     description: String.t,
     properties: [CodeParserState.Property.property],
-    methods: [CodeParserState.Method.method]
+    methods: [CodeParserState.Method.method],
+    relations: [String.t]
   }
   @type state :: State.state
   @type namespace :: Namespace.namespace
@@ -14,7 +15,8 @@ defmodule CodeParserState.Class do
   defstruct name: "",
     description: "TODO",
     properties: [],
-    methods: []
+    methods: [],
+    relations: []
 
   @spec name(state) :: String.t
   def name(%State{} = state), do: from_state state, &name/1
@@ -39,6 +41,12 @@ defmodule CodeParserState.Class do
 
   @spec methods(class) :: [CodeParserState.Method.method]
   def methods(%{methods: methods}), do: methods
+
+  @spec relations(state) :: [String.t]
+  def relations(%State{} = state), do: from_state state, &relations/1
+
+  @spec relations(class) :: [String.t]
+  def relations(%{relations: relations}), do: relations
 
   @spec set_name(state, String.t) :: state
   def set_name(%State{} = state, name), do: Namespace.update_class(state, &set_name(&1, name))
@@ -98,6 +106,15 @@ defmodule CodeParserState.Class do
       [] -> []
       [head | tail] -> [update.(head) | tail]
     end)
+  end
+
+  @spec add_relation(state, String.t) :: state
+  def add_relation(%State{} = state, relation), do: Namespace.update_class(state, &add_relation(&1, relation))
+
+  @spec add_relation(class, String.t) :: class
+  def add_relation(class, relation) do
+    class
+    |> Map.update!(:relations, &[relation | &1])
   end
 
   @spec from_state(state, fun) :: term
