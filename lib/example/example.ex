@@ -20,6 +20,24 @@ defmodule CodeParserState.Example do
       |> CodeParserState.Property.set_description("the number of occurences of something")
     )
     |> CodeParserState.Class.add_property(%CodeParserState.Property{}
+      |> CodeParserState.Property.set_accessibility("public")
+      |> CodeParserState.Property.set_type("int")
+      |> CodeParserState.Property.set_name("Lol")
+      |> CodeParserState.Property.set_description("the number of occurences of something")
+    )
+    |> CodeParserState.Class.add_property(%CodeParserState.Property{}
+      |> CodeParserState.Property.set_accessibility("public")
+      |> CodeParserState.Property.set_type("int")
+      |> CodeParserState.Property.set_name("Hi")
+      |> CodeParserState.Property.set_description("the number of occurences of something")
+    )
+    |> CodeParserState.Class.add_property(%CodeParserState.Property{}
+      |> CodeParserState.Property.set_accessibility("public")
+      |> CodeParserState.Property.set_type("int")
+      |> CodeParserState.Property.set_name("Test")
+      |> CodeParserState.Property.set_description("the number of occurences of something")
+    )
+    |> CodeParserState.Class.add_property(%CodeParserState.Property{}
       |> CodeParserState.Property.set_accessibility("private const")
       |> CodeParserState.Property.set_type("string")
       |> CodeParserState.Property.set_name("NAME")
