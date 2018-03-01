@@ -46,6 +46,9 @@ defmodule CodeParserState.File do
     end)
   end
 
+  @spec name(state) :: String.t
+  def name(%State{} = state), do: State.file(state) |> name
+
   @spec name(file) :: String.t
   def name(%{name: name}), do: name
 
