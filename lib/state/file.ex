@@ -46,6 +46,18 @@ defmodule CodeParserState.File do
     end)
   end
 
+  @spec update_all_namespaces(state, fun) :: state
+  def update_all_namespaces(%State{} = state, update) do
+    state
+    |> State.update_all_files(&update_all_namespaces(&1, update))
+  end
+
+  @spec update_all_namespaces(file, fun) :: file
+  def update_all_namespaces(file, update) do
+    file
+    |> Map.update!(:namespaces, &Enum.map(&1, update))
+  end
+
   @spec name(state) :: String.t
   def name(%State{} = state), do: State.file(state) |> name
 

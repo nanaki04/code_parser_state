@@ -68,4 +68,11 @@ defmodule CodeParserState.Method do
       [head | tail] -> [update.(head) | tail]
     end)
   end
+
+  @spec update_all_parameters(method, fun) :: method
+  def update_all_parameters(method, update) do
+    method
+    |> Map.update!(:parameters, &Enum.map(&1, update))
+  end
+
 end

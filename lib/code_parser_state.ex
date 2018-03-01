@@ -31,4 +31,10 @@ defmodule CodeParserState do
       [head | tail] -> [update.(head) | tail]
     end)
   end
+
+  @spec update_all_files(state, fun) :: state
+  def update_all_files(state, update) do
+    state
+    |> Map.update!(:files, &Enum.map(&1, update))
+  end
 end

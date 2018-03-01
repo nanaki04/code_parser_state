@@ -88,6 +88,18 @@ defmodule CodeParserState.Class do
     end)
   end
 
+  @spec update_all_properties(state, fun) :: state
+  def update_all_properties(%State{} = state, update) do
+    state
+    |> Namespace.update_all_classes(&update_all_properties(&1, update))
+  end
+
+  @spec update_all_properties(class_like, fun) :: class_like
+  def update_all_properties(class, update) do
+    class
+    |> Map.update!(:properties, &Enum.map(&1, update))
+  end
+
   @spec add_method(state, CodeParserState.Method.method) :: state
   def add_method(%State{} = state, method), do: Namespace.update_class(state, &add_method(&1, method))
 
@@ -107,6 +119,18 @@ defmodule CodeParserState.Class do
       [] -> []
       [head | tail] -> [update.(head) | tail]
     end)
+  end
+
+  @spec update_all_methods(state, fun) :: state
+  def update_all_methods(%State{} = state, update) do
+    state
+    |> Namespace.update_all_classes(&update_all_methods(&1, update))
+  end
+
+  @spec update_all_methods(class_like, fun) :: class_like
+  def update_all_methods(class, update) do
+    class
+    |> Map.update!(:methods, &Enum.map(&1, update))
   end
 
   @spec add_relation(state, String.t) :: state

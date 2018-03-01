@@ -22,4 +22,7 @@ defmodule CodeParserState.InterfaceMethod do
 
   @spec update_parameter(state, fun) :: state
   def update_parameter(state, update), do: Interface.update_method state, &Method.update_parameter(&1, update)
+
+  @spec update_all_parameters(state, fun) :: state
+  def update_all_parameters(state, update), do: Interface.update_all_methods state, &Method.update_all_parameters(&1, update)
 end

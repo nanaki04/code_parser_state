@@ -74,6 +74,18 @@ defmodule CodeParserState.Namespace do
     end)
   end
 
+  @spec update_all_classes(state, fun) :: state
+  def update_all_classes(%State{} = state, update) do
+    state
+    |> File.update_all_namespaces(&update_all_classes(&1, update))
+  end
+
+  @spec update_all_classes(namespace, fun) :: namespace
+  def update_all_classes(namespace, update) do
+    namespace
+    |> Map.update!(:classes, &Enum.map(&1, update))
+  end
+
   @spec add_interface(state, CodeParserState.Interface.interface) :: state
   def add_interface(%State{} = state, interface) do
     state
@@ -101,6 +113,18 @@ defmodule CodeParserState.Namespace do
     end)
   end
 
+  @spec update_all_interfaces(state, fun) :: state
+  def update_all_interfaces(%State{} = state, update) do
+    state
+    |> File.update_all_namespaces(&update_all_interfaces(&1, update))
+  end
+
+  @spec update_all_interfaces(namespace, fun) :: namespace
+  def update_all_interfaces(namespace, update) do
+    namespace
+    |> Map.update!(:interfaces, &Enum.map(&1, update))
+  end
+
   @spec add_enum(state, CodeParserState.Enum.enum) :: state
   def add_enum(%State{} = state, enum) do
     state
@@ -126,6 +150,18 @@ defmodule CodeParserState.Namespace do
       [] -> []
       [head | tail] -> [update.(head) | tail]
     end)
+  end
+
+  @spec update_all_enums(state, fun) :: state
+  def update_all_enums(%State{} = state, update) do
+    state
+    |> File.update_all_namespaces(&update_all_enums(&1, update))
+  end
+
+  @spec update_all_enums(namespace, fun) :: namespace
+  def update_all_enums(namespace, update) do
+    namespace
+    |> Map.update!(:enums, &Enum.map(&1, update))
   end
 
   @spec from_state(state, fun) :: term

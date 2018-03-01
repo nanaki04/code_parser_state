@@ -37,6 +37,10 @@ defmodule CodeParserState.Enum do
   @spec update_property(state, fun) :: state
   def update_property(%State{} = state, update), do: Namespace.update_enum(state, &Class.update_property(&1, update))
 
+  @spec update_all_properties(state, fun) :: state
+  def update_all_properties(%State{} = state, update),
+    do: Namespace.update_all_enums(state, &Class.update_all_properties(&1, update))
+
   @spec from_state(state, fun) :: term
   defp from_state(state, delegate) do
     state

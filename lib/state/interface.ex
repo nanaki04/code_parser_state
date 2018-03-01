@@ -48,11 +48,19 @@ defmodule CodeParserState.Interface do
   @spec update_property(state, fun) :: state
   def update_property(%State{} = state, update), do: Namespace.update_interface(state, &Class.update_property(&1, update))
 
+  @spec update_all_properties(state, fun) :: state
+  def update_all_properties(%State{} = state, update),
+    do: Namespace.update_all_interfaces(state, &Class.update_all_properties(&1, update))
+
   @spec add_method(state, Method.method) :: state
   def add_method(%State{} = state, method), do: Namespace.update_interface(state, &Class.add_method(&1, method))
 
   @spec update_method(state, fun) :: state
   def update_method(%State{} = state, update), do: Namespace.update_interface(state, &Class.update_method(&1, update))
+
+  @spec update_all_methods(state, fun) :: state
+  def update_all_methods(%State{} = state, update),
+    do: Namespace.update_all_interfaces(state, &Class.update_all_methods(&1, update))
 
   @spec add_relation(state, String.t) :: state
   def add_relation(%State{} = state, relation), do: Namespace.update_interface(state, &Class.add_relation(&1, relation))
