@@ -28,7 +28,7 @@ defmodule CodeParserState.Method do
   def description(%{description: description}), do: description
 
   @spec parameters(method) :: [Property.property]
-  def parameters(%{parameters: parameters}), do: parameters
+  def parameters(%{parameters: parameters}), do: parameters |> Enum.reverse
 
   @spec set_accessibility(method, String.t) :: method
   def set_accessibility(method, accessibility) do

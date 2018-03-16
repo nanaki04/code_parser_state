@@ -11,10 +11,10 @@ defmodule CodeParserState.File do
     namespaces: []
 
   @spec namespaces(file) :: [CodeParserState.Namespace.namespace]
-  def namespaces(%{namespaces: namespaces}), do: namespaces
+  def namespaces(%{namespaces: namespaces}), do: namespaces |> Enum.reverse
 
   @spec namespace(state) :: CodeParserState.Namespace.namespace
-  def namespace(%State{} = state), do: State.file(state) |> namespace
+  def namespace(%State{} = state), do: State.file(state) |> namespace |> Enum.reverse
 
   @spec namespace(file) :: CodeParserState.Namespace.namespace
   def namespace(file), do: hd(namespaces(file))

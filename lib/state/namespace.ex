@@ -21,19 +21,19 @@ defmodule CodeParserState.Namespace do
   def classes(%State{} = state), do: from_state state, &classes/1
 
   @spec classes(namespace) :: [CodeParserState.Class.class]
-  def classes(%{classes: classes}), do: classes
+  def classes(%{classes: classes}), do: classes |> Enum.reverse
 
   @spec interfaces(state) :: [CodeParserState.Interface.interface]
   def interfaces(%State{} = state), do: from_state state, &interfaces/1
 
   @spec interfaces(namespace) :: [CodeParserState.Interface.interface]
-  def interfaces(%{interfaces: interfaces}), do: interfaces
+  def interfaces(%{interfaces: interfaces}), do: interfaces |> Enum.reverse
 
   @spec enums(state) :: [CodeParserState.Enum.enum]
   def enums(%State{} = state), do: from_state state, &enums/1
 
   @spec enums(namespace) :: [CodeParserState.Enum.enum]
-  def enums(%{enums: enums}), do: enums
+  def enums(%{enums: enums}), do: enums |> Enum.reverse
 
   @spec set_name(state, String.t) :: state
   def set_name(%State{} = state, name) do

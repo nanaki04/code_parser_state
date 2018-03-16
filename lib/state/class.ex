@@ -35,19 +35,19 @@ defmodule CodeParserState.Class do
   def properties(%State{} = state), do: from_state state, &properties/1
 
   @spec properties(class_like) :: [CodeParserState.Property.property]
-  def properties(%{properties: properties}), do: properties
+  def properties(%{properties: properties}), do: properties |> Enum.reverse
 
   @spec methods(state) :: [CodeParserState.Method.method]
   def methods(%State{} = state), do: from_state state, &methods/1
 
   @spec methods(class_like) :: [CodeParserState.Method.method]
-  def methods(%{methods: methods}), do: methods
+  def methods(%{methods: methods}), do: methods |> Enum.reverse
 
   @spec relations(state) :: [String.t]
   def relations(%State{} = state), do: from_state state, &relations/1
 
   @spec relations(class_like) :: [String.t]
-  def relations(%{relations: relations}), do: relations
+  def relations(%{relations: relations}), do: relations |> Enum.reverse
 
   @spec set_name(state, String.t) :: state
   def set_name(%State{} = state, name), do: Namespace.update_class(state, &set_name(&1, name))
